@@ -1,31 +1,24 @@
 package com.project.step_definitions;
 
 
+
+import com.project.utilities.API;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
-import io.restassured.http.ContentType;
-import io.restassured.response.Response;
-import io.restassured.specification.RequestSpecification;
 
-
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.requestSpecification;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.lessThan;
+import static org.hamcrest.Matchers.*;
 
-public class ListUserStepDef {
-
-    String endPoint ="";
-    RequestSpecification reqSpec = given()
-            .accept(ContentType.JSON);
-
-    Response response;
-
+public class ListUserStepDef extends BaseStepDef{
 
 
     @BeforeAll
@@ -35,11 +28,11 @@ public class ListUserStepDef {
 
 
 
-
     @Given("I use this path {string}")
     public void i_use_this_path(String path) {
-        endPoint +="/"+path;
+        endPoint += "/" + path;
     }
+
     @Given("I use this query {string} {string}")
     public void i_use_this_query(String keyword, String value) {
 
@@ -47,6 +40,7 @@ public class ListUserStepDef {
                 .queryParam(keyword, value);
 
     }
+
     @When("I use get method")
     public void i_use_get_method() {
         response = given().spec(reqSpec)
@@ -60,7 +54,6 @@ public class ListUserStepDef {
     }
 
 
-
     @Then("headers {string} should have this value {string}")
     public void headers_should_have_this_value(String header, String value) {
         response = response.then().header(header, value).extract().response();
@@ -69,16 +62,97 @@ public class ListUserStepDef {
 
     @Then("host should be {string}")
     public void host_should_be(String value) {
-        given().spec(reqSpec).request().header("Host",value);
+        given().spec(reqSpec).request().header("Host", value);
     }
 
 
     @Then("check response time less than {int} ms")
     public void check_response_time_less_than_ms(int responseTime) {
-        assertThat(response.getTime(),lessThan((long)responseTime));
+        assertThat(response.getTime(), lessThan((long) responseTime));
     }
 
 
+    @Then("verify the value of {string} element from response is {string}")
+    public void verify_the_value_of_element_from_response_is(String element, String value) {
+
+        response.then().body(element, is(value));
+
+    }
+
+    @Then("verify the value of {string} element from response is {int}")
+    public void verify_the_value_of_element_from_response_is(String element, int value) {
+
+        response.then().body(element, is(value));
+
+    }
+
+
+    @Then("print each element of {string} array from response")
+    public void print_each_element_of_array_from_response(String nameOfArray) {
+
+        List<Object> data = response.path("data");
+        for (Object eachData : data) {
+            System.out.println(eachData);
+        }
+    }
+
+
+    @Then("verify if {string} under {string} element from response is working")
+    public void verify_if_under_element_from_response_is_working(String keyword1, String keyword2) {
+        String url = response.path(keyword2 + "." + keyword1);
+        given().get(url).then().statusCode(200);
+    }
+
+
+    @Then("print each {string} of {string} array from response")
+    public void print_each_of_array_from_response(String keyword1, String keyword2) {
+        List<String> elements = response.path(keyword2 + "." + keyword1);
+
+        elements.forEach(i -> System.out.println(i));
+    }
+
+
+    @Then("list each element of {string} array from response whose {string} is odd")
+    public void list_each_element_of_array_from_response_whose_is_odd(String keyword1, String keyword2) {
+        List<Map<Object, Object>> elements = response.path(keyword1);
+
+        elements.stream().filter(i -> ((int) i.get(keyword2) % 2 == 1)).forEach(System.out::println);
+    }
+
+
+    @Then("check each {string} contains user's name {string} under {string} from response")
+    public void check_each_contains_user_s_name_under_from_response(String firstData, String secondData, String thirdData) {
+        List<String> firstNames = response.path(thirdData + "." + secondData);
+
+        List<String> emails = response.path(thirdData + "." + firstData);
+
+        for (int i = 0; i < emails.size(); i++) {
+            String eachMail = emails.get(i);
+            String eachFirstName = firstNames.get(i).toLowerCase();
+            assertThat(eachMail, containsString(eachFirstName));
+        }
+    }
+
+
+    @Then("check {string} equals to {string} and {string} equals to {string} inside {string}")
+    public void check_equals_to_and_equals_to_inside(String keyword1, String expected1, String keyword2, String expected2, String listName) {
+
+        List<String> keyword1s = API.integerToStringListFromResponse(response.path(listName + "." + keyword1));
+
+
+        List<String> keyword2s = API.integerToStringListFromResponse(response.path(listName + "." + keyword2));
+
+
+        if (keyword1s.contains(expected1)) {
+
+            int index = keyword1s.indexOf(expected1);
+            assertThat(keyword2s.get(index).equals(expected2), is(true));
+
+        }else {
+            throw new RuntimeException(keyword1 + " is not found");
+        }
+
+    }
 
 
 }

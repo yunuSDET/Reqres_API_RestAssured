@@ -3,7 +3,7 @@
 
 URL: https://reqres.in/
 
-
+GET
 
 
 LIST USERS
@@ -40,7 +40,7 @@ LIST USERS
 1.11 Scenario Outline:Check if each email address contains first name
 
 
-1.12 Scenario Outline:Verify that if all ids and first_names match
+1.12 Scenario Outline:Verify that if given ids and first_names match
 
 
 
@@ -53,19 +53,19 @@ SINGLE USER
 
 2.2  Scenario Outline: Check user list includes  specific users with below ids
 
-2.3  Scenario Outline: Check user list includes  specific users with below ids
+
+2.3  Scenario Outline: Check if the avatars is accessible for each user
 
 2.4  Scenario Outline: Check if the avatars is accessible for each user
 
-2.5  Scenario Outline: Check if the avatars is accessible for each user
-
-2.6  Scenario Outline: Check with invalid users and verify that status code 404
+2.5  Scenario Outline: Access the single user page with invalid ids and verify that status code 404
 
 
 
 
 
-GET
+
+
 
 4.0-->list_resources.feature
 
@@ -91,6 +91,9 @@ GET
 
 
 4.7 Scenario: Verify that each element of response is not null
+
+
+
 
 
 
