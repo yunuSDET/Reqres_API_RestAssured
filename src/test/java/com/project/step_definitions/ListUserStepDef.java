@@ -3,11 +3,10 @@ package com.project.step_definitions;
 
 
 import com.project.utilities.API;
-import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
+
 
 import java.util.List;
 import java.util.Map;
@@ -47,19 +46,21 @@ public class ListUserStepDef extends BaseStepDef{
 
     @Then("status code should be {int}")
     public void status_code_should_be(int statusCodeValue) {
-        response.then().statusCode(statusCodeValue).extract().response();
+        response.then().statusCode(statusCodeValue);
     }
 
 
-    @Then("headers {string} should have this value {string}")
-    public void headers_should_have_this_value(String header, String value) {
-        response.then().header(header, value).extract().response();
+    @Then("response headers {string} should have this value {string}")
+    public void response_headers_should_have_this_value(String headerName, String value) {
+        response.then().header(headerName, value);
     }
 
 
-    @Then("host should be {string}")
-    public void host_should_be(String value) {
-        given().spec(reqSpec).request().header("Host", value);
+
+
+    @Then("request headers {string} should have this value {string}")
+    public void request_headers_should_have_this_value(String headerName, String value) {
+        given().spec(reqSpec).request().header(headerName, value);
     }
 
 

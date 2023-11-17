@@ -14,19 +14,18 @@ Feature: List User Functionality
     Given I use this query "page" "2"
     When I use get method
     Then status code should be 200
-    And headers "Content-Type" should have this value "application/json; charset=utf-8"
+    And response headers "Content-Type" should have this value "application/json; charset=utf-8"
 
 
   Scenario: Verify that host is "reqres.in" for first/second page
-    Given I use this query "page" "1"
-    Then host should be "reqres.in"
+    Then request headers "Host" should have this value "reqres.in"
+
 
 
   Scenario: Verify that connection is "keep-alive" for first/second page
-    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
-    And headers "Connection" should have this value "keep-alive"
+    And response headers "Connection" should have this value "keep-alive"
 
 
   Scenario: Check if the response time is less then 250 for first/second page
