@@ -1,45 +1,43 @@
 Feature: List User Functionality
 
-  Scenario: List all users from first/second page
+  Background: Used path
     Given I use this path "api/users"
-    And I use this query "page" "1"
+
+
+  Scenario: List all users from first/second page
+    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
 
 
   Scenario: Verify that content type is "application/json; charset=utf-8" for first/second page
-    Given I use this path "api/users"
-    And I use this query "page" "2"
+    Given I use this query "page" "2"
     When I use get method
     Then status code should be 200
     And headers "Content-Type" should have this value "application/json; charset=utf-8"
 
 
   Scenario: Verify that host is "reqres.in" for first/second page
-    Given I use this path "api/users"
-    And I use this query "page" "1"
+    Given I use this query "page" "1"
     Then host should be "reqres.in"
 
 
   Scenario: Verify that connection is "keep-alive" for first/second page
-    Given I use this path "api/users"
-    And I use this query "page" "1"
+    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
     And headers "Connection" should have this value "keep-alive"
 
 
   Scenario: Check if the response time is less then 250 for first/second page
-    Given I use this path "api/users"
-    And I use this query "page" "1"
+    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
     And check response time less than 250 ms
 
 
   Scenario: Verify page, per_page, total, total_pages for first/second page
-    Given I use this path "api/users"
-    And I use this query "page" "1"
+    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
     And verify the value of "page" element from response is 1
@@ -49,8 +47,7 @@ Feature: List User Functionality
 
 
   Scenario Outline: List all users
-    Given I use this path "api/users"
-    And I use this query "page" "<pageNumber>"
+    Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
     And print each element of "data" array from response
@@ -62,24 +59,21 @@ Feature: List User Functionality
 
 
   Scenario: Check if support url is working for first/second page
-    Given I use this path "api/users"
-    And I use this query "page" "1"
+    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
     And verify if "url" under "support" element from response is working
 
 
   Scenario: List all user first names from first/second page
-    Given I use this path "api/users"
-    And I use this query "page" "1"
+    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
     And print each "first_name" of "data" array from response
 
 
   Scenario Outline: List all user names whose ids are odd
-    Given I use this path "api/users"
-    And I use this query "page" "<pageNumber>"
+    Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
     And list each element of "data" array from response whose "id" is odd
@@ -91,8 +85,7 @@ Feature: List User Functionality
 
 
   Scenario Outline:Check if each email address contains first name
-    Given I use this path "api/users"
-    And I use this query "page" "<pageNumber>"
+    Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
     And check each "email" contains user's name "first_name" under "data" from response
@@ -105,8 +98,7 @@ Feature: List User Functionality
 
 
   Scenario Outline:Verify that if given ids and first_names match
-    Given I use this path "api/users"
-    And I use this query "page" "<pageNumber>"
+    Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
     And check "id" equals to "<id>" and "first_name" equals to "<firstName>" inside "data"

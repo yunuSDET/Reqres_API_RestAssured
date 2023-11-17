@@ -11,7 +11,7 @@ import io.restassured.RestAssured;
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
@@ -21,10 +21,7 @@ import static org.hamcrest.Matchers.*;
 public class ListUserStepDef extends BaseStepDef{
 
 
-    @BeforeAll
-    public static void init() {
-        RestAssured.baseURI = "https://reqres.in";
-    }
+
 
 
 
@@ -50,13 +47,13 @@ public class ListUserStepDef extends BaseStepDef{
 
     @Then("status code should be {int}")
     public void status_code_should_be(int statusCodeValue) {
-        response = response.then().statusCode(statusCodeValue).extract().response();
+        response.then().statusCode(statusCodeValue).extract().response();
     }
 
 
     @Then("headers {string} should have this value {string}")
     public void headers_should_have_this_value(String header, String value) {
-        response = response.then().header(header, value).extract().response();
+        response.then().header(header, value).extract().response();
     }
 
 

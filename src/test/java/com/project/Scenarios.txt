@@ -8,6 +8,8 @@ GET
 
 LIST USERS
 
+
+
 1.0 --> list_user.feature
 
 1.1 Scenario: List all users from first/second page
