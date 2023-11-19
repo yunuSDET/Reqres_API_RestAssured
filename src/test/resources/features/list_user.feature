@@ -10,32 +10,31 @@ Feature: List User Functionality
     Then status code should be 200
 
 
-  Scenario: Verify that content type is "application/json; charset=utf-8" for first/second page
+  Scenario: Verify that content type is "application/json; charset=utf-8" for first or second page
     Given I use this query "page" "2"
     When I use get method
     Then status code should be 200
     And response headers "Content-Type" should have this value "application/json; charset=utf-8"
 
 
-  Scenario: Verify that host is "reqres.in" for first/second page
+  Scenario: Verify that host is "reqres.in" for first or second page
     Then request headers "Host" should have this value "reqres.in"
 
 
 
-  Scenario: Verify that connection is "keep-alive" for first/second page
+  Scenario: Verify that connection is "keep-alive" for first or second page
     When I use get method
     Then status code should be 200
     And response headers "Connection" should have this value "keep-alive"
 
 
-  Scenario: Check if the response time is less then 250 for first/second page
-    Given I use this query "page" "1"
+  Scenario: Check if the response time is less then 250 ms for first or second page
     When I use get method
     Then status code should be 200
     And check response time less than 250 ms
 
 
-  Scenario: Verify page, per_page, total, total_pages for first/second page
+  Scenario: Verify page, per_page, total, total_pages for first or second page
     Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
@@ -57,7 +56,7 @@ Feature: List User Functionality
       | 2          |
 
 
-  Scenario: Check if support url is working for first/second page
+  Scenario: Check if support url is working for first or second page
     Given I use this query "page" "1"
     When I use get method
     Then status code should be 200

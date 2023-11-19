@@ -1,7 +1,6 @@
 package com.project.step_definitions;
 
 
-
 import com.project.utilities.API;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -17,11 +16,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-public class ListUserStepDef extends BaseStepDef{
-
-
-
-
+public class ListUserStepDef extends BaseStepDef {
 
 
     @Given("I use this path {string}")
@@ -56,8 +51,6 @@ public class ListUserStepDef extends BaseStepDef{
     }
 
 
-
-
     @Then("request headers {string} should have this value {string}")
     public void request_headers_should_have_this_value(String headerName, String value) {
         given().spec(reqSpec).request().header(headerName, value);
@@ -67,6 +60,8 @@ public class ListUserStepDef extends BaseStepDef{
     @Then("check response time less than {int} ms")
     public void check_response_time_less_than_ms(int responseTime) {
         assertThat(response.getTime(), lessThan((long) responseTime));
+
+
     }
 
 
@@ -86,12 +81,14 @@ public class ListUserStepDef extends BaseStepDef{
 
 
     @Then("print each element of {string} array from response")
-    public void print_each_element_of_array_from_response(String nameOfArray) {
+    public void print_each_element_of_array_from_response(String pathOfList) {
 
-        List<Object> data = response.path("data");
+        List<Object> data = response.path(pathOfList);
         for (Object eachData : data) {
             System.out.println(eachData);
         }
+
+
     }
 
 
@@ -104,9 +101,9 @@ public class ListUserStepDef extends BaseStepDef{
 
     @Then("print each {string} of {string} array from response")
     public void print_each_of_array_from_response(String keyword1, String keyword2) {
-        List<String> elements = response.path(keyword2 + "." + keyword1);
+        List<Object> elements = response.path(keyword2 + "." + keyword1);
 
-        elements.forEach(i -> System.out.println(i));
+        elements.forEach(System.out::println);
     }
 
 
@@ -114,12 +111,15 @@ public class ListUserStepDef extends BaseStepDef{
     public void list_each_element_of_array_from_response_whose_is_odd(String keyword1, String keyword2) {
         List<Map<Object, Object>> elements = response.path(keyword1);
 
-        elements.stream().filter(i -> ((int) i.get(keyword2) % 2 == 1)).forEach(System.out::println);
+        elements.stream()
+                .filter(i -> ((Integer) i.get(keyword2) % 2 == 1))
+                .forEach(System.out::println);
     }
 
 
     @Then("check each {string} contains user's name {string} under {string} from response")
     public void check_each_contains_user_s_name_under_from_response(String firstData, String secondData, String thirdData) {
+
         List<String> firstNames = response.path(thirdData + "." + secondData);
 
         List<String> emails = response.path(thirdData + "." + firstData);
@@ -146,7 +146,7 @@ public class ListUserStepDef extends BaseStepDef{
             int index = keyword1s.indexOf(expected1);
             assertThat(keyword2s.get(index).equals(expected2), is(true));
 
-        }else {
+        } else {
             throw new RuntimeException(keyword1 + " is not found");
         }
 
