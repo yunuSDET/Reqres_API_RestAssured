@@ -5,6 +5,7 @@ import com.project.utilities.API;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.junit.Assert;
 
 
 import java.util.List;
@@ -44,6 +45,12 @@ public class ListUserStepDef extends BaseStepDef {
         response.then().statusCode(statusCodeValue);
     }
 
+    @Then("print the user list")
+    public void print_the_user_list() {
+        List<Object> users = response.path("data");
+        System.out.println(users);
+    }
+
 
     @Then("response headers {string} should have this value {string}")
     public void response_headers_should_have_this_value(String headerName, String value) {
@@ -53,7 +60,7 @@ public class ListUserStepDef extends BaseStepDef {
 
     @Then("request headers {string} should have this value {string}")
     public void request_headers_should_have_this_value(String headerName, String value) {
-        given().spec(reqSpec).request().header(headerName, value);
+        given().spec(reqSpec).request().then().header(headerName, value);
     }
 
 
@@ -92,20 +99,17 @@ public class ListUserStepDef extends BaseStepDef {
     }
 
 
-    @Then("verify if {string} under {string} element from response is working")
-    public void verify_if_under_element_from_response_is_working(String keyword1, String keyword2) {
-        String url = response.path(keyword2 + "." + keyword1);
-        given().get(url).then().statusCode(200);
+    @Then("{string} url should be working")
+    public void url_should_be_working(String path) {
+        given().get(response.path(path) + "").then().statusCode(200);
     }
 
 
-    @Then("print each {string} of {string} array from response")
-    public void print_each_of_array_from_response(String keyword1, String keyword2) {
-        List<Object> elements = response.path(keyword2 + "." + keyword1);
+    @Then("print {string} from response")
+    public void print_from_response(String path) {
 
-        elements.forEach(System.out::println);
+        System.out.println(response.path(path).toString());
     }
-
 
     @Then("list each element of {string} array from response whose {string} is odd")
     public void list_each_element_of_array_from_response_whose_is_odd(String keyword1, String keyword2) {
@@ -115,6 +119,17 @@ public class ListUserStepDef extends BaseStepDef {
                 .filter(i -> ((Integer) i.get(keyword2) % 2 == 1))
                 .forEach(System.out::println);
     }
+
+
+    @Then("print each {string} which has this condition {string}")
+    public void print_each_which_has_this_condition(String path, String condition) {
+
+      List<Object> list = response.path(path);
+
+
+
+    }
+
 
 
     @Then("check each {string} contains user's name {string} under {string} from response")

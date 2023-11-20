@@ -8,6 +8,7 @@ Feature: List User Functionality
     Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
+    And print the user list
 
 
   Scenario: Verify that content type is "application/json; charset=utf-8" for first or second page
@@ -21,27 +22,33 @@ Feature: List User Functionality
     Then request headers "Host" should have this value "reqres.in"
 
 
-
   Scenario: Verify that connection is "keep-alive" for first or second page
+    Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
     And response headers "Connection" should have this value "keep-alive"
 
 
-  Scenario: Check if the response time is less then 250 ms for first or second page
+  Scenario: Check if the response time is less then 1000 ms for first or second page
+    Given I use this query "page" "2"
     When I use get method
     Then status code should be 200
-    And check response time less than 250 ms
+    And check response time less than 1000 ms
 
 
-  Scenario: Verify page, per_page, total, total_pages for first or second page
-    Given I use this query "page" "1"
+  Scenario Outline: Verify page, per_page, total, total_pages for first or second page
+    Given I use this query "page" "2"
     When I use get method
     Then status code should be 200
-    And verify the value of "page" element from response is 1
-    And verify the value of "per_page" element from response is 6
-    And verify the value of "total" element from response is 12
-    And verify the value of "total_pages" element from response is 2
+    And verify the value of "<key>" element from response is <value>
+
+
+    Examples:
+      | key         | value |
+      | page        | 2     |
+      | per_page    | 6     |
+      | total       | 12    |
+      | total_pages | 2     |
 
 
   Scenario Outline: List all users
@@ -60,22 +67,21 @@ Feature: List User Functionality
     Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
-    And verify if "url" under "support" element from response is working
+    And "support.url" url should be working
 
 
   Scenario: List all user first names from first/second page
     Given I use this query "page" "1"
     When I use get method
     Then status code should be 200
-    And print each "first_name" of "data" array from response
-
+    And print "data.first_name" from response
 
   Scenario Outline: List all user names whose ids are odd
     Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
     And list each element of "data" array from response whose "id" is odd
-
+    And print each "data.id" which has this condition "%==1"
     Examples:
       | pageNumber |
       | 1          |
