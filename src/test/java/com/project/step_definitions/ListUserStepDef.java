@@ -5,9 +5,12 @@ import com.project.utilities.API;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.Assert;
 
+import org.apache.velocity.runtime.parser.node.SimpleNode;
 
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
+import javax.script.ScriptException;
 import java.util.List;
 import java.util.Map;
 
@@ -118,16 +121,6 @@ public class ListUserStepDef extends BaseStepDef {
         elements.stream()
                 .filter(i -> ((Integer) i.get(keyword2) % 2 == 1))
                 .forEach(System.out::println);
-    }
-
-
-    @Then("print each {string} which has this condition {string}")
-    public void print_each_which_has_this_condition(String path, String condition) {
-
-      List<Object> list = response.path(path);
-
-
-
     }
 
 

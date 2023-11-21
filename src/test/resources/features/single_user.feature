@@ -1,8 +1,11 @@
 Feature: Single User Functionality
 
-  Scenario: Verify id, email, first_name,last_name for first/second page
+  Background: Used path
     Given I use this path "api/users"
-    And I use this path "4"
+
+
+  Scenario: Verify id, email, first_name,last_name for first/second page
+    Given I use this path "4"
     When I use get method
     Then status code should be 200
     And verify the value of "data.id" element from response is 4
@@ -12,8 +15,7 @@ Feature: Single User Functionality
 
 
   Scenario Outline: Check user list includes  specific users with below ids
-    Given I use this path "api/users"
-    And I use this query "page" "<pageNumber>"
+    Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
     And verify that following list "data.id" include this element "<id>"
@@ -29,9 +31,7 @@ Feature: Single User Functionality
 
 
   Scenario Outline: Check if the avatars is accessible for each user
-
-    Given I use this path "api/users"
-    And I use this query "page" "<pageNumber>"
+    Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
     And verify that listed links "data.avatar" is working
@@ -42,8 +42,7 @@ Feature: Single User Functionality
 
 
   Scenario Outline: Access the single user page with invalid ids and verify that status code 404
-    Given I use this path "api/users"
-    And I use this path "<id>"
+    Given I use this path "<id>"
     When I use get method
     Then status code should be 404
 

@@ -81,8 +81,7 @@ Feature: List User Functionality
     When I use get method
     Then status code should be 200
     And list each element of "data" array from response whose "id" is odd
-    And print each "data.id" which has this condition "%==1"
-    Examples:
+      Examples:
       | pageNumber |
       | 1          |
       | 2          |
