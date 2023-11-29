@@ -36,6 +36,9 @@ public class ListUserStepDef extends BaseStepDef {
 
     }
 
+
+
+
     @When("I use get method")
     public void i_use_get_method() {
         response = given().spec(reqSpec)
@@ -52,6 +55,7 @@ public class ListUserStepDef extends BaseStepDef {
     public void print_the_user_list() {
         List<Object> users = response.path("data");
         System.out.println(users);
+
     }
 
 
