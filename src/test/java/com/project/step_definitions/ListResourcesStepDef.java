@@ -30,17 +30,32 @@ public class ListResourcesStepDef extends BaseStepDef {
     }
 
 
-    @Then("{string} starts with {string} and have {int} characters")
-    public void starts_with_and_have_characters(String path, String startsWithValue, Integer size) {
 
-       List<Object> colors = response.path(path);
+
+
+    @Then("verify that {string} list starts with {string} and have {int} characters")
+    public void verify_that_list_starts_with_and_have_characters(String path, String startsWithValue, int size) {
+
+        List<Object> colors = response.path(path);
 
         for (Object eachColor : colors) {
             String each = eachColor.toString();
             Assert.assertTrue(each.startsWith(startsWithValue) && each.length()==size );
         }
+    }
+
+
+    @Then("verify that each element of {string} is in the following format NN-NNNN")
+    public void verify_that_each_element_of_is_in_the_following_format_nn_nnnn(String path) {
+        List<String> pantoneValues = response.path(path);
+
+        for (String each : pantoneValues) {
+            Assert.assertTrue(each.matches("\\d{2}-\\d{4}"));
+        }
 
     }
+
+
 
 
 

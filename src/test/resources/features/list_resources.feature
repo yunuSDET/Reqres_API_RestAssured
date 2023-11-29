@@ -34,13 +34,27 @@ Feature: List Sources Functionality
       | 2          | 2009 |
 
 
-  @wip
+
   Scenario Outline:Verify that all color codes starts with "#" and have 7 characters (including "#")
     Given I use this query "page" "<pageNumber>"
     When I use get method
     Then status code should be 200
-    And "data.color" starts with "#" and have 7 characters
+    And verify that "data.color" list starts with "#" and have 7 characters
 
+
+    Examples:
+      | pageNumber |
+      | 1          |
+      | 2          |
+
+
+
+  @wip
+  Scenario Outline: Verify that all the value of pantone_values in following format "##-####"
+    Given I use this query "page" "<pageNumber>"
+    When I use get method
+    Then status code should be 200
+    And verify that each element of "data.pantone_value" is in the following format NN-NNNN
 
     Examples:
       | pageNumber |
