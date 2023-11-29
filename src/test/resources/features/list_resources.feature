@@ -1,4 +1,4 @@
-@wip
+
 Feature: List Sources Functionality
 
   Background: Used path
@@ -25,10 +25,24 @@ Feature: List Sources Functionality
     And print each element of "data" array from response with this condition "year" "=" <year>
 
     Examples:
-      | pageNumber |year|
-      | 1          |2000|
-      | 2          |2000|
-      | 1          |2004|
-      | 2          |2004|
-      | 1          |2009|
-      | 2          |2009|
+      | pageNumber | year |
+      | 1          | 2000 |
+      | 2          | 2000 |
+      | 1          | 2004 |
+      | 2          | 2004 |
+      | 1          | 2009 |
+      | 2          | 2009 |
+
+
+  @wip
+  Scenario Outline:Verify that all color codes starts with "#" and have 7 characters (including "#")
+    Given I use this query "page" "<pageNumber>"
+    When I use get method
+    Then status code should be 200
+    And "data.color" starts with "#" and have 7 characters
+
+
+    Examples:
+      | pageNumber |
+      | 1          |
+      | 2          |
