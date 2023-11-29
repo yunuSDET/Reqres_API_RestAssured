@@ -60,3 +60,12 @@ Feature: List Sources Functionality
       | pageNumber |
       | 1          |
       | 2          |
+
+
+
+  Scenario: Verify the year of second element of data in first page is 2001
+    Given I use this query "page" "1"
+    When I use get method
+    Then status code should be 200
+    And verify the value of "data.year" lists 2. element is 2001
+

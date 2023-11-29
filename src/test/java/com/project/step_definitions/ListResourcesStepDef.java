@@ -57,6 +57,16 @@ public class ListResourcesStepDef extends BaseStepDef {
 
 
 
+    @Then("verify the value of {string} lists {int}. element is {int}")
+    public void verify_the_value_of_lists_element_is(String path, Integer index, Integer value) {
+
+       List<Integer> values = response.path(path);
+        System.out.println(values.get(index-1) +"  "+value);
+        Assert.assertEquals(values.get(index - 1), value);
+
+
+    }
+
 
 
 
